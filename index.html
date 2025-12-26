@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FLAMES Calculator</title>
-
+<title>🔥 FLAMES Calculator</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        background: url('https://i.ibb.co/tqWJn6x/love-bg.png') no-repeat center center fixed;
+        background-size: cover;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -16,24 +16,26 @@
     }
 
     .container {
-        background: #fff;
-        padding: 25px;
-        border-radius: 12px;
-        width: 350px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        width: 380px;
         text-align: center;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        position: relative;
     }
 
     h1 {
         color: #ff3366;
         margin-bottom: 20px;
+        text-shadow: 1px 1px #fff;
     }
 
     input {
         width: 90%;
         padding: 10px;
         margin: 10px 0;
-        border-radius: 6px;
+        border-radius: 8px;
         border: 1px solid #ccc;
         font-size: 16px;
     }
@@ -42,11 +44,12 @@
         background: #ff3366;
         color: #fff;
         border: none;
-        padding: 10px 25px;
+        padding: 12px 25px;
         font-size: 16px;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
         margin-top: 10px;
+        transition: 0.3s;
     }
 
     button:hover {
@@ -54,16 +57,41 @@
     }
 
     .result {
-        margin-top: 20px;
-        font-size: 20px;
+        margin-top: 25px;
+        font-size: 22px;
         font-weight: bold;
         color: #333;
+        min-height: 50px;
+    }
+
+    /* Animated typing effect */
+    .typing {
+        display: inline-block;
+        border-right: 3px solid #ff3366;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 2s steps(20) infinite alternate;
+    }
+
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    /* Watermark heart symbol */
+    .watermark {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        font-size: 40px;
+        color: rgba(255,0,100,0.2);
+        pointer-events: none;
+        user-select: none;
     }
 </style>
 </head>
 
 <body>
-
 <div class="container">
     <h1>🔥 FLAMES</h1>
 
@@ -73,6 +101,13 @@
     <button onclick="calculateFlames()">Check Result</button>
 
     <div class="result" id="result"></div>
+
+    <div class="watermark">❤️</div>
+
+    <!-- AdSense Placeholder -->
+    <!-- <div class="adsense">
+        Paste your AdSense code here
+    </div> -->
 </div>
 
 <script>
@@ -99,24 +134,37 @@ function calculateFlames() {
     }
 
     let count = arr1.length + arr2.length;
-
     let flames = ["Friends", "Love", "Affection", "Marriage", "Enemy", "Sister"];
     let index = 0;
 
-    while (flames.length > 1) {
-        index = (count % flames.length) - 1;
-        if (index >= 0) {
-            flames = flames.slice(index + 1).concat(flames.slice(0, index));
-        } else {
-            flames.pop();
-        }
-    }
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = '<span class="typing">Calculating FLAMES result...</span>';
 
-    document.getElementById("result").innerHTML =
-        "💖 Result: <br>" + flames[0];
+    setTimeout(function() {
+        resultDiv.innerHTML = `Remaining letters count: ${count}`;
+    }, 1500);
+
+    setTimeout(function() {
+        let tempFlames = [...flames];
+
+        function eliminate() {
+            if (tempFlames.length > 1) {
+                index = (count % tempFlames.length) - 1;
+                if (index >= 0) {
+                    tempFlames = tempFlames.slice(index + 1).concat(tempFlames.slice(0, index));
+                } else {
+                    tempFlames.pop();
+                }
+                resultDiv.innerHTML = `Eliminating... 🔥 ${tempFlames.join(', ')}`;
+                setTimeout(eliminate, 1000);
+            } else {
+                resultDiv.innerHTML = `💖 Result: <br>${tempFlames[0]}`;
+            }
+        }
+
+        eliminate();
+    }, 3000);
 }
 </script>
-
 </body>
 </html>
-
