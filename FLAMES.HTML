@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FLAMES Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        width: 350px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        color: #ff3366;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    button {
+        background: #ff3366;
+        color: #fff;
+        border: none;
+        padding: 10px 25px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #e62e5c;
+    }
+
+    .result {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🔥 FLAMES</h1>
+
+    <input type="text" id="male" placeholder="Male Name (e.g. Rajesh)">
+    <input type="text" id="female" placeholder="Female Name (e.g. Ramya)">
+
+    <button onclick="calculateFlames()">Check Result</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateFlames() {
+    let name1 = document.getElementById("male").value.toLowerCase().replace(/\s/g, '');
+    let name2 = document.getElementById("female").value.toLowerCase().replace(/\s/g, '');
+
+    if (name1 === "" || name2 === "") {
+        document.getElementById("result").innerHTML = "Please enter both names!";
+        return;
+    }
+
+    // Remove common letters
+    let arr1 = name1.split('');
+    let arr2 = name2.split('');
+
+    for (let i = 0; i < arr1.length; i++) {
+        let index = arr2.indexOf(arr1[i]);
+        if (index !== -1) {
+            arr2.splice(index, 1);
+            arr1.splice(i, 1);
+            i--;
+        }
+    }
+
+    let count = arr1.length + arr2.length;
+
+    let flames = ["Friends", "Love", "Affection", "Marriage", "Enemy", "Sister"];
+    let index = 0;
+
+    while (flames.length > 1) {
+        index = (count % flames.length) - 1;
+        if (index >= 0) {
+            flames = flames.slice(index + 1).concat(flames.slice(0, index));
+        } else {
+            flames.pop();
+        }
+    }
+
+    document.getElementById("result").innerHTML =
+        "💖 Result: <br>" + flames[0];
+}
+</script>
+
+</body>
+</html>
